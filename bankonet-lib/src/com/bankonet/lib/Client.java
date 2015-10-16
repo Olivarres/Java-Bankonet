@@ -30,7 +30,15 @@ public class Client implements Serializable {
 	}
 	
 
-
+	public String synthese(String type) {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(
+				this.nom + '_' + 
+				this.prenom + '_' + type + '_' +
+				String.valueOf(this.comptesList.size()+1));
+		return builder.toString();
+	}
 	
 
 

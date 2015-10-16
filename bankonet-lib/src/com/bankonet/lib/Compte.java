@@ -7,16 +7,18 @@ public abstract class Compte implements Serializable {
 	private String numero;
 	private String intitule;
 	private double solde;
+	private Client client;
 	
 	public Compte() {
 		
 	}
 	
-	public Compte(String numero, String intitule, double solde) {
+	public Compte(String numero, String intitule, double solde, Client client) {
 		super();
 		this.numero = numero;
 		this.intitule = intitule;
 		this.solde = solde;
+		this.client = client;
 	}
 
 	public abstract boolean checkDebit(double montant);
@@ -65,6 +67,16 @@ public abstract class Compte implements Serializable {
 
 	public void setIntitule(String intitule) {
 		this.intitule = intitule;
+	}
+
+	
+	
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	public double getSolde() {

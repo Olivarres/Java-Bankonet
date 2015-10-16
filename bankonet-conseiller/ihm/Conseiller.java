@@ -1,10 +1,15 @@
-package com.bankonetconseiller;
+package ihm;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
 import com.bankonet.lib.*;
+
+import dao.DAOFactory;
+import dao.DAOFactoryFile;
+import dao.client.ClientDAO;
+import dao.compte.CompteDAO;
 
 
 public class Conseiller {
@@ -16,6 +21,9 @@ public class Conseiller {
 	private FileManager fm = new FileManager();
 	private Client currentClient;
 	private String intro;
+	private DAOFactory factory = new DAOFactoryFile();
+	private ClientDAO cm = factory.getClientDAO();
+	private CompteDAO cpm = factory.getCompteDAO();
 	
 	//private Steps steps;
 	
@@ -45,29 +53,25 @@ public class Conseiller {
 			System.out.println(it.next());
 			tab[step] = this.Scandat(0);
 		}
-		if ((client =clientsList.get(tab[2])) == null) {
-			client = new Client(tab[0], tab[1], tab[2], steps.get(4));
+		try {
+			client = cm.create(tab[0], tab[1], tab[2], steps.get(step+1));
+			builder.append(tab[0] + '_' + tab[1] + "_COURANT_1");
+			CompteCourant compte = new CompteCourant(String.valueOf(client.getComptesList().size()+1), builder.toString(), 0, 500, client);
+			client.creerCompte(compte);
+			cm.save(client);
+		} catch (CompteException e) {
+			System.out.println(e.getMessage());
 		}
-		
 
-		builder.append(tab[0] + '_' + tab[1] + "_COURANT_1");
-
-		CompteCourant compte = new CompteCourant(String.valueOf(client.getComptesList().size()+1), builder.toString(), 0, 500);
-		client.creerCompte(compte);
-		if (clientsList.get(tab[2]) == null) {
-			clientsList.put(tab[2], client);
-		}
-		
-		fm.writeData(clientsList);
-		
 		this.handleOption(this.getOption(intro));
 	}
 	
 	public void displayClients(String msg) {
 		StringBuilder builder = new StringBuilder();
-		Iterator<Client> it = this.clientsList.values().iterator();
+		Map<String, Client> clientsList = cm.findAll();
 		Client client = null;
 		
+		Iterator<Client> it = clientsList.values().iterator();
 		while (it.hasNext()) {
 			client = (Client)it.next();
 			builder.append(client.toString() + "Nombre de comptes: " + client.getComptesList().size() + "\n");
@@ -83,27 +87,22 @@ public class Conseiller {
 		this.displayClients("");
 		while(!ok) {
 			System.out.println("Choisir un client:");
-			if ((currentClient = this.clientsList.get(this.Scandat(0))) != null) {
+			if ((currentClient = cm.findById(this.Scandat(0))) != null) {
 				ok = true;
 			}
 		}
 	}
 	
 	public void ajoutCompte(String type) {
-		StringBuilder builder = new StringBuilder();
+		String str;
 		
 		this.choixClient();
-		builder.append(
-				this.currentClient.getNom() + '_' + 
-				this.currentClient.getPrenom() + '_' + type + '_' +
-				String.valueOf(this.currentClient.getComptesList().size()+1));
-		if (type.equals("COURANT")) {
-			this.currentClient.creerCompte(new CompteCourant(String.valueOf(this.currentClient.getComptesList().size()+1), builder.toString(), 0, 0));
+		str = this.currentClient.synthese(type);
+		try {
+			cpm.save(cpm.create(this.currentClient, str, type), this.currentClient);
+		} catch (CompteException e) {
+			e.printStackTrace();
 		}
-		else {
-			this.currentClient.creerCompte(new CompteEpargne(String.valueOf(this.currentClient.getComptesList().size()+1), builder.toString(), 0, 2));
-		}
-		fm.writeData(clientsList);
 		System.out.println("Compte " + this.currentClient.getComptesList().get(String.valueOf(this.currentClient.getComptesList().size())) + " ajouté!\n");
 		this.handleOption(this.getOption(this.intro));
 	}
@@ -113,14 +112,19 @@ public class Conseiller {
 		Iterator<Compte> it = this.currentClient.getComptesList().values().iterator();
 		Compte compte = null;
 		
-		while (it.hasNext()) {
-			compte = it.next();
-			if ((compte instanceof CompteEpargne && type.equals("epargne")) || (compte instanceof CompteCourant && type.equals("courant"))) {
-				builder.append(compte.toString() + "\n");
-			}
-			
+		Compte[] tabCompte = cpm.findAll();
+		System.out.println(tabCompte.length);
+		for(int i =0; i < tabCompte.length; i++) {
+			System.out.println(tabCompte[i]);
 		}
-		System.out.println(builder.toString());
+//		while (it.hasNext()) {
+//			compte = it.next();
+//			if ((compte instanceof CompteEpargne && type.equals("epargne")) || (compte instanceof CompteCourant && type.equals("courant"))) {
+//				builder.append(compte.toString() + "\n");
+//			}
+			
+		//}
+		//System.out.println(builder.toString());
 		if (!msg.equals(""))
 			this.handleOption(this.getOption(msg));
 	}
@@ -207,7 +211,9 @@ public class Conseiller {
 	
 	public static void main(String[] args) {
 		Conseiller conseiller = new Conseiller();
-		conseiller.fm.getData(conseiller.clientsList);
+		
+		//conseiller.fm.getData(conseiller.clientsList);
+		conseiller.clientsList = conseiller.factory.getClientDAO().findAll();
 		System.out.println(conseiller.clientsList.size());
 	    conseiller.handleOption(conseiller.getOption(conseiller.intro));       
 	}

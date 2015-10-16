@@ -1,4 +1,4 @@
-package com.bankonetconseiller;
+package ihm;
 
 public enum Steps {
 	STEP1("Nom du client:"), STEP2("Prenom du client:"), STEP3("Login du client:");

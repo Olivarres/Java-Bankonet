@@ -8,8 +8,8 @@ public class CompteEpargne extends Compte {
 CompteEpargne() {
 		
 	}
-	public CompteEpargne(String ncompte, String nintitule, double nsolde, double tauxI) {
-		super(ncompte, nintitule, nsolde);
+	public CompteEpargne(String ncompte, String nintitule, double nsolde, double tauxI, Client client) {
+		super(ncompte, nintitule, nsolde, client);
 		tauxInteret = tauxI;
 		plafond = 500;
 	}

@@ -19,7 +19,6 @@ public class MainClient {
 	
 	private String intro;
 	
-	//private Steps steps;
 	
 	MainClient() {
 		this.steps.put(1, "Veuillez entrer votre login:");
@@ -88,6 +87,7 @@ public class MainClient {
 			tab[step] = this.Scandat(0);
 			if ((currentClient = this.clientsList.get(tab[step])) != null) {
 				System.out.println(this.steps.get(++step+1));
+				System.out.println(currentClient.getPwd());
 				tab[step] = this.Scandat(0);
 				if (currentClient.getPwd().equals(tab[step])) {
 					ok = true;

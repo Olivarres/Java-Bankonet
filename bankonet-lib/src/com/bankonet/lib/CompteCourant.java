@@ -9,8 +9,8 @@ public class CompteCourant extends Compte {
 		nbComptesCourants++;
 	}
 	
-	public CompteCourant(String num, String intitul, double sold, double montantD) {
-		super(num, intitul, sold);
+	public CompteCourant(String num, String intitul, double sold, double montantD, Client client) {
+		super(num, intitul, sold, client);
 		
 		if (sold < 0) {
 			System.out.println("Un solde ne peut être négatif\n");

@@ -5,7 +5,7 @@ public class CompteException extends Exception {
 		
 	}
 	
-	CompteException(String msg) {
+	public CompteException(String msg) {
 		super(msg);
 	}
 }
