@@ -8,23 +8,33 @@ import java.util.Scanner;
 
 import com.bankonet.lib.*;
 
+import dao.DAOFactory;
+import dao.DAOFactoryFile;
+import metier.ClientService;
+import metier.ClientServiceImpl;
+import metier.CompteService;
+import metier.CompteServiceImpl;
+
 public class MainClient {
 	
 	private Map<String, Client> clientsList = new HashMap<String, Client>();
-	private Map<Integer, String> steps = new HashMap();
+	private Map<Integer, String> stepsLogin = new HashMap();
 	private Map<Integer, String> stepsDepot = new HashMap();
 	private Map<Integer, String> stepsRetrait = new HashMap();
 	private FileManager fm = new FileManager();
 	private Client currentClient;
+	private DAOFactory factory = new DAOFactoryFile();
+	private CompteService compteService = new CompteServiceImpl(factory.getCompteDAO());
+	private ClientService cs = new ClientServiceImpl(factory.getCompteDAO(), factory.getClientDAO(), compteService);
 	
 	private String intro;
 	
 	
 	MainClient() {
-		this.steps.put(1, "Veuillez entrer votre login:");
-		this.steps.put(2, "Password:");
-		this.steps.put(3, "Connexion impossible.");
-		this.steps.put(4, "pwd");
+		this.stepsLogin.put(1, "Veuillez entrer votre login:");
+		this.stepsLogin.put(2, "Password:");
+		this.stepsLogin.put(3, "Connexion impossible.");
+		this.stepsLogin.put(4, "pwd");
 		this.stepsDepot.put(0, "Choisir le compte à créditer:");
 		this.stepsDepot.put(1, "Saisir un montant:");
 		this.stepsRetrait.put(0, "Choisir le compte à débiter:");
@@ -39,20 +49,20 @@ public class MainClient {
 		currentClient = null;
 	}
 	
-	public void displayComptes(String msg) {
-		StringBuilder builder = new StringBuilder();
-		Iterator<Compte> it = this.currentClient.getComptesList().values().iterator();
-		Compte compte = null;
-		
-		while (it.hasNext()) {
-			compte = it.next();
-			builder.append(compte.toString() + "\n");
-			
-		}
-		System.out.println(builder.toString());
-		if (!msg.equals(""))
-			this.handleOption(this.getOption(msg));
-	}
+//	public void displayComptes(String msg) {
+//		StringBuilder builder = new StringBuilder();
+//		Iterator<Compte> it = this.currentClient.getComptesList().values().iterator();
+//		Compte compte = null;
+//		
+//		while (it.hasNext()) {
+//			compte = it.next();
+//			builder.append(compte.toString() + "\n");
+//			
+//		}
+//		System.out.println(builder.toString());
+//		if (!msg.equals(""))
+//			this.handleOption(this.getOption(msg));
+//	}
 	
 	public String Scandat(int flag) {
 		String str = "";
@@ -83,10 +93,10 @@ public class MainClient {
 		
 		for (step =0;!ok;) {
 			step = 0;
-			System.out.println(this.steps.get(step+1));
+			System.out.println(this.stepsLogin.get(step+1));
 			tab[step] = this.Scandat(0);
 			if ((currentClient = this.clientsList.get(tab[step])) != null) {
-				System.out.println(this.steps.get(++step+1));
+				System.out.println(this.stepsLogin.get(++step+1));
 				System.out.println(currentClient.getPwd());
 				tab[step] = this.Scandat(0);
 				if (currentClient.getPwd().equals(tab[step])) {
@@ -97,43 +107,43 @@ public class MainClient {
 		return ok;
 	}
 	
-	public Compte choixCompte(String type) {
-		boolean ok = false;
-		Compte compte = null;
-		
-		this.displayComptes("");
-		while(!ok) {
-			System.out.println("Choisir un compte à " + type);
-			if ((compte = this.currentClient.getComptesList().get(this.Scandat(0))) != null) {
-				ok = true;
-			}
-		}
-		return compte;
-	}
+//	public Compte choixCompte(String type) {
+//		boolean ok = false;
+//		Compte compte = null;
+//		
+//		this.displayComptes("");
+//		while(!ok) {
+//			System.out.println("Choisir un compte à " + type);
+//			if ((compte = this.currentClient.getComptesList().get(this.Scandat(0))) != null) {
+//				ok = true;
+//			}
+//		}
+//		return compte;
+//	}
 	
-	public void faireDepot() {
-		int step = 1;
-		boolean ok = false;
-		Compte compte = null;
-		
-		compte = this.choixCompte("créditer");
-		while(!ok) {
-			System.out.println(this.stepsDepot.get(step));
-				try {
-					compte.crediter(Double.valueOf(Scandat(0)));
-					fm.writeData(clientsList);
-					ok = true;
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CompteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		
-		this.handleOption(this.getOption(intro));
-	}
+//	public void faireDepot() {
+//		int step = 1;
+//		boolean ok = false;
+//		Compte compte = null;
+//		
+//		compte = this.choixCompte("créditer");
+//		while(!ok) {
+//			System.out.println(this.stepsDepot.get(step));
+//				try {
+//					compte.crediter(Double.valueOf(Scandat(0)));
+//					fm.writeData(clientsList);
+//					ok = true;
+//				} catch (NumberFormatException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (CompteException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		
+//		this.handleOption(this.getOption(intro));
+//	}
 	
 	
 	
@@ -272,10 +282,10 @@ public class MainClient {
 	public void handleOption(String option) {
 		
 		if (option.equals("1")) {
-			this.displayComptes(this.intro);
+			cs.displayAll(this.currentClient);
 		}
 		else if (option.equals("2")) {
-			this.faireDepot();
+			compteService.faireDepot(this.currentClient);
 		}
 		else if (option.equals("3")) {
 			this.faireRetrait();

@@ -5,9 +5,10 @@ public class CompteEpargne extends Compte {
 		private double tauxInteret;
 		private double plafond;
 		
-CompteEpargne() {
+	public CompteEpargne() {
 		
 	}
+	
 	public CompteEpargne(String ncompte, String nintitule, double nsolde, double tauxI, Client client) {
 		super(ncompte, nintitule, nsolde, client);
 		tauxInteret = tauxI;
@@ -17,6 +18,7 @@ CompteEpargne() {
 	public double getPlafond(){
 		return plafond;
 	}
+	
 	
 	public void crediter(double montant) throws CompteException {
 		System.out.println(this.plafond);

@@ -2,8 +2,14 @@ package com.bankonet.lib;
 
 import java.io.Serializable;
 
-public abstract class Compte implements Serializable {
+import com.mongodb.ReflectionDBObject;
 
+public abstract class Compte extends ReflectionDBObject implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String numero;
 	private String intitule;
 	private double solde;
@@ -14,11 +20,10 @@ public abstract class Compte implements Serializable {
 	}
 	
 	public Compte(String numero, String intitule, double solde, Client client) {
-		super();
+		//super();
 		this.numero = numero;
 		this.intitule = intitule;
 		this.solde = solde;
-		this.client = client;
 	}
 
 	public abstract boolean checkDebit(double montant);
@@ -47,6 +52,7 @@ public abstract class Compte implements Serializable {
 	public void crediter(double montant) throws CompteException {
 		solde += montant;
 	}
+
 
 	@Override
 	public String toString() {

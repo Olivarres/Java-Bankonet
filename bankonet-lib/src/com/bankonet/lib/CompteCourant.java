@@ -6,7 +6,7 @@ public class CompteCourant extends Compte {
 	static int nbComptesCourants=0;
 	
 	public CompteCourant() {
-		nbComptesCourants++;
+		
 	}
 	
 	public CompteCourant(String num, String intitul, double sold, double montantD, Client client) {
@@ -22,6 +22,7 @@ public class CompteCourant extends Compte {
 	static int getNbComptesCourants() {
 		return nbComptesCourants;
 	}
+	
 	
 	public boolean checkDebit(double montant)
 	{

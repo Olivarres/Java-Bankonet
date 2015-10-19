@@ -9,7 +9,7 @@ import com.bankonet.lib.CompteException;
 public interface CompteDAO {
 
 	public Compte[] findAll();
-	public Compte create(Client client, String lib, String type) throws CompteException;
+	public Compte create(Client client, String lib, Class<? extends Compte> type) throws CompteException;
 	public Compte findById(String id, Client client);
 	public void save(Compte Compte, Client client);
 }

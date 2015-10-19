@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class Client implements Serializable {
+import com.mongodb.BasicDBObject;
+import com.mongodb.ReflectionDBObject;
+
+public class Client extends ReflectionDBObject implements Serializable {
 
 	
 	private String nom;
@@ -12,7 +15,7 @@ public class Client implements Serializable {
 	private String identifiant;
 	private String pwd;
 	private Map<String, Compte> comptesList;
-	
+	public Compte cp;
 	
 	public Client(String nom, String prenom, String identifiant, String pwd) {
 		super();
@@ -30,22 +33,22 @@ public class Client implements Serializable {
 	}
 	
 
-	public String synthese(String type) {
+	public String synthese(Class<? extends Compte> type) {
 		StringBuilder builder = new StringBuilder();
-		
+System.out.println(type.getName().substring(5).toUpperCase());
 		builder.append(
 				this.nom + '_' + 
-				this.prenom + '_' + type + '_' +
+				this.prenom + '_' + type.getName().substring(type.getName().length()-7).toUpperCase() + '_' +
 				String.valueOf(this.comptesList.size()+1));
 		return builder.toString();
 	}
 	
 
 
-	@Override
-	public String toString() {
-		return String.format("Client [nom=%s, prenom=%s, identifiant=%s]", nom, prenom, identifiant);
-	}
+//	@Override
+//	public String toString() {
+//		return String.format("Client [nom=%s, prenom=%s, identifiant=%s]", nom, prenom, identifiant);
+//	}
 
 
 	public void supprimerCompte(Compte compte) {

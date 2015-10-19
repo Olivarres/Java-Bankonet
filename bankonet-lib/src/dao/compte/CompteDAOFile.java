@@ -47,11 +47,11 @@ public class CompteDAOFile implements CompteDAO {
 	}
 
 	@Override
-	public Compte create(Client client, String lib, String type) throws CompteException {
+	public Compte create(Client client, String lib, Class<? extends Compte> type) throws CompteException {
 		if (client.getComptesList().get(String.valueOf(client.getComptesList().size()+1)) != null) {
 			throw new CompteException("Compte existant");
 		}
-		if (type.equals("COURANT")) {
+		if (type.equals(CompteCourant.class)) {
 			return new CompteCourant(String.valueOf(client.getComptesList().size()+1), lib, 0, 0, client);
 		} else {
 			return new CompteEpargne(String.valueOf(client.getComptesList().size()+1), lib, 0, 2, client);
