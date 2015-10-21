@@ -41,8 +41,10 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+hibernate-release-4.3.9.Final
 
 *.class
+*.html
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
