@@ -2,6 +2,8 @@ package com.bankonet.lib;
 
 import java.io.Serializable;
 
+import javax.persistence.Id;
+
 import com.mongodb.ReflectionDBObject;
 
 public abstract class Compte extends ReflectionDBObject implements Serializable {
@@ -11,16 +13,16 @@ public abstract class Compte extends ReflectionDBObject implements Serializable 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String numero;
+	@Id
 	private String intitule;
 	private double solde;
 	private Client client;
 	
-	public Compte() {
-		
+	public Compte() {	
 	}
 	
 	public Compte(String numero, String intitule, double solde, Client client) {
-		//super();
+		super();
 		this.numero = numero;
 		this.intitule = intitule;
 		this.solde = solde;

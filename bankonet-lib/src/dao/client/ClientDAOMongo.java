@@ -1,12 +1,12 @@
 package dao.client;
 
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import com.bankonet.lib.Client;
 import com.bankonet.lib.Compte;
 import com.bankonet.lib.CompteException;
 import com.bankonet.lib.DBManager;
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -29,8 +29,8 @@ public class ClientDAOMongo implements ClientDAO {
 		    	   System.out.println("YOLO");
 		    	   DBObject dbobj = cursor.next();
 		          System.out.println(dbobj);
-		          Client client = (new Gson()).fromJson(dbobj.toString(), Client.class);
-		          System.out.println("CLIENT"+ client.getNom());
+		         
+		        
 		       }
 		    } finally {
 		       cursor.close();
@@ -57,9 +57,14 @@ public class ClientDAOMongo implements ClientDAO {
 		
 //		client.cp = client.getComptesList().get("1");
 //		client.setComptesList(null);
-		Gson gson = new Gson();
-		DBObject obj = (DBObject)JSON.parse(gson.toJson(client));
-		String json = gson.toJson(client);
+		//Gson gson = new Gson();
+		
+//                .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+//                .serializeNulls()
+//					.registerTypeAdapter(Compte.class, new CompteDeserializer());
+//			        .registerTypeAdapter(Compte.class, new CompteSerializer()),
+             
+	
 		//DBObject basic = new BasicDBObject("Client", json);
 		DBObject basic = new BasicDBObject();
 //		basic.put("name", client.getNom());
@@ -71,7 +76,7 @@ public class ClientDAOMongo implements ClientDAO {
 //		dbCollection.save(basicDBObject);    
 		try {
 		DBCollection coll = dbm.db.getCollection("Client");
-		coll.insert(obj);
+		
 		} catch (MongoException e) {
 			//System.out.println(e.getMessage());
 		}

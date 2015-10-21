@@ -1,12 +1,18 @@
 package ihm;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.bankonet.lib.*;
 
+import command.*;
 import dao.DAOFactory;
 import dao.DAOFactoryFile;
+import dao.DAOFactoryJpa;
 import dao.DAOFactoryMongo;
 import metier.ClientService;
 import metier.ClientServiceImpl;
@@ -18,9 +24,10 @@ public class Conseiller {
 	
 	private Map<String, Client> clientsList = new HashMap<String, Client>();
 	private String intro;
-	private DAOFactory factory = new DAOFactoryMongo();
+	private DAOFactory factory = new DAOFactoryJpa();
 	private CompteService compteService = new CompteServiceImpl(factory.getCompteDAO());
 	private ClientService cs = new ClientServiceImpl(factory.getCompteDAO(), factory.getClientDAO(), compteService);
+	private ConsoleReader scan = ConsoleReader.getInstance();
 	
 	
 	Conseiller() {
@@ -32,58 +39,38 @@ public class Conseiller {
 				+ "5. Modifier le decouvert\n";
 	}
 	
-	public String Scandat(int flag) {
-		String str = "";
-		Scanner scanIn = new Scanner(System.in);
-		
-		 if (flag == 1)
-	    	 scanIn.close();
-		 
-		 
-	     str = scanIn.nextLine();
-	     return str;
-	}
-	
-	public String getOption(String msg) {
-		String cOption;
-	     
-			System.out.println(msg);
-			cOption = this.Scandat(0);
-	       return cOption;
-	}
-	
-	public void handleOption(String option) {
-		
-		if (option.equals("1")) {	
-			cs.createClient();
-		} 
-		else if (option.equals("2")) {
-			cs.displayClients(this.intro);
-		}
-		else if (option.equals("3")) {
-			cs.ajoutCompte(CompteCourant.class);
-		}
-		else if (option.equals("4")) {
-			cs.ajoutCompte(CompteEpargne.class);
-		}
-		else if (option.equals("5")) {
-			cs.modifDecouvert();
-		}
-		else if (option.equals("0")) {
-			System.out.println("Closing App...");
-			System.exit(0);
-		}
-	}
 	
 	public static void main(String[] args) {
 		Conseiller conseiller = new Conseiller();
+		Map<Integer, IHMCommand> commands = new HashMap<Integer, IHMCommand>();
+		List<IHMCommand> staticCommands = Arrays.asList(new ExitCommand(), 
+				new NewCCCommand(conseiller.cs, ConsoleReader.getInstance()), 
+				new ListClientsCommand(conseiller.cs, ConsoleReader.getInstance()),
+				new AddCCCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new AddCECommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new ModifDecCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new InitCommand(conseiller.cs),
+				new LFNameCommand(conseiller.cs, ConsoleReader.getInstance()),
+				new LFFirstNameCommand(conseiller.cs, ConsoleReader.getInstance()),
+				new ModifyNameCommand(conseiller.cs, ConsoleReader.getInstance()),
+				new DeleteClientCommand(conseiller.cs, ConsoleReader.getInstance()),
+				new DeleteAllClientsCommand(conseiller.cs, ConsoleReader.getInstance()));
+		
+	DBManager db = new DBManager();
+	db.connectMySQL();
 		
 		
+		for (IHMCommand command : staticCommands) {
+			commands.put(command.getId(), command);
+		}
 		
-		//conseiller.clientsList = conseiller.factory.getClientDAO().findAll();
-		//System.out.println(conseiller.clientsList.size());
-		while(true)
-			conseiller.handleOption(conseiller.getOption(conseiller.intro));       
+		while(true) {
+			for(Iterator<Integer> p = commands.keySet().iterator(); p.hasNext(); ) {
+				Integer in = p.next();
+				System.out.println(commands.get(in).getId() + commands.get(in).getLib());
+			}
+			commands.get(conseiller.scan.readInt("")).execute();
+		}
 	}
 
 }

@@ -4,25 +4,34 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import com.mongodb.BasicDBObject;
+import javax.persistence.*;
+
 import com.mongodb.ReflectionDBObject;
 
+@Entity
+@NamedQueries ({
+@NamedQuery(name="client.findByName", query="select c from Client c where c.nom=:name"),
+@NamedQuery(name="client.findByFirstName", query="select c from Client c where c.prenom=:firstname"),
+})
 public class Client extends ReflectionDBObject implements Serializable {
 
 	
 	private String nom;
 	private String prenom;
+	@Id
 	private String identifiant;
 	private String pwd;
-	private Map<String, Compte> comptesList;
-	public Compte cp;
+	@Transient
+	private Map<String, Compte> comptesList = new HashMap();
+	
+	public Client() {}
 	
 	public Client(String nom, String prenom, String identifiant, String pwd) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.identifiant = identifiant;
-		this.comptesList = new HashMap(); 
+//		this.comptesList = new HashMap(); 
 		this.pwd = pwd;
 	}
 	
@@ -34,38 +43,35 @@ public class Client extends ReflectionDBObject implements Serializable {
 	
 
 	public String synthese(Class<? extends Compte> type) {
+		int size = 1;
+		if (this.comptesList != null) {
+			size = this.comptesList.size() +1;
+		}
+		
 		StringBuilder builder = new StringBuilder();
-System.out.println(type.getName().substring(5).toUpperCase());
 		builder.append(
 				this.nom + '_' + 
 				this.prenom + '_' + type.getName().substring(type.getName().length()-7).toUpperCase() + '_' +
-				String.valueOf(this.comptesList.size()+1));
+				String.valueOf(size));
 		return builder.toString();
 	}
 	
 
 
-//	@Override
-//	public String toString() {
-//		return String.format("Client [nom=%s, prenom=%s, identifiant=%s]", nom, prenom, identifiant);
-//	}
+	@Override
+	public String toString() {
+		return String.format("Client [nom=%s, prenom=%s, identifiant=%s]", nom, prenom, identifiant);
+	}
 
 
 	public void supprimerCompte(Compte compte) {
 		this.comptesList.remove(compte.getNumero());
-		//this.comptesList.remove(compte);
 	}
 	
 	public Compte retournerCompte(String numero) throws CompteException {
 		Iterator<Compte> it = this.comptesList.values().iterator();
 		Compte compte;
 		
-//		while(it.hasNext()) {
-//			compte = (Compte)it.next();
-//			if (compte.getNumero().compareTo(numero)==0) {
-//				return compte;
-//			}		
-//		}
 		if ((compte = this.comptesList.get(numero)) != null) {
 			return compte;
 		} else {
@@ -117,14 +123,14 @@ System.out.println(type.getName().substring(5).toUpperCase());
 	public Map<String, Compte> getComptesList() {
 		return comptesList;
 	}
-	public void setComptesList(Map comptesList) {
-		this.comptesList = comptesList;
-	}
 	
 	public String getPwd() {
 		return pwd;
 	}
 
+	public void setComptesList(Map<String, Compte> comptesList) {
+		this.comptesList = comptesList;
+	}
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;

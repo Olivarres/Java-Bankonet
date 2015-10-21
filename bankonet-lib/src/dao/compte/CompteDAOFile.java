@@ -62,7 +62,12 @@ public class CompteDAOFile implements CompteDAO {
 	public Compte findById(String id, Client client) {
 		return client.getComptesList().get(id);
 	}
-
+	
+	public Compte findByType(Class<? extends Compte> type, Client client) {
+		Iterator<Compte> it = client.getComptesList().values().iterator();
+		return null;
+	}
+	
 	@Override
 	public void save(Compte compte, Client client) {
 		client.getComptesList().put(compte.getNumero(), compte);

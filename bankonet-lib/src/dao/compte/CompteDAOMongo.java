@@ -31,4 +31,10 @@ public class CompteDAOMongo implements CompteDAO {
 
 	}
 
+	@Override
+	public Compte findByType(Class<? extends Compte> type, Client client) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

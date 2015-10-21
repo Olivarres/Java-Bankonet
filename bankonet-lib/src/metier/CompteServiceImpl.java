@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.bankonet.lib.Client;
 import com.bankonet.lib.Compte;
+import com.bankonet.lib.CompteCourant;
 import com.bankonet.lib.CompteException;
 
 import dao.compte.CompteDAO;
@@ -25,7 +26,6 @@ public class CompteServiceImpl implements CompteService {
 		
 		while (it.hasNext()) {
 			compte = it.next();
-			//if ((compte instanceof CompteEpargne && type.equals("epargne")) || (compte instanceof CompteCourant && type.equals("courant"))) {
 			if (compte.getClass().equals(type)) {
 				builder.append(compte.toString() + "\n");
 			}
@@ -35,19 +35,25 @@ public class CompteServiceImpl implements CompteService {
 		
 	}
 
-	@Override
-	public Compte choixCompte(Class<? extends Compte> type, Client client) {
-		boolean ok = false;
-		Compte compte = null;
+	public void ajoutCompte(Class<? extends Compte> type, Client client) {
+		String str;
 		
-		this.displayComptes(type, client);
-		while(!ok) {
-			System.out.println("Choisir un compte " + type.getName().substring(type.getName().length()-7));
-			if ((compte = client.getComptesList().get(this.Scandat(0))) != null) {
-				ok = true;
-			}
+		str = client.synthese(type);
+		try {
+			cpm.save(cpm.create(client, str, type), client);
+		} catch (CompteException e) {
+			e.printStackTrace();
 		}
-		return compte;
+		System.out.println("Compte " + client.getComptesList().get(String.valueOf(client.getComptesList().size())) + " ajouté!\n");
+	}
+	
+	@Override
+	public Compte getCompte(Class<? extends Compte> type, Client client, String id) {
+		return cpm.findById(id, client);
+	}
+	
+	public Compte getCompteByType(Class<? extends Compte> type, Client client) {
+		return cpm.findByType(type, client);
 	}
 	
 	public void displayAll(Client client) {
@@ -63,7 +69,7 @@ public class CompteServiceImpl implements CompteService {
 		System.out.println(builder.toString());
 	}
 	
-	public Compte choixCompteVire(String type, Client client) {
+	public Compte getCompteVire(String type, Client client) {
 		boolean ok = false;
 		Compte compte = null;
 		
@@ -82,7 +88,7 @@ public class CompteServiceImpl implements CompteService {
 		boolean ok = false;
 		Compte compte = null;
 		
-		compte = this.choixCompteVire("créditer", client);
+		compte = this.getCompteVire("créditer", client);
 		while(!ok) {
 			System.out.println("Saisir un montant:");
 				try {
@@ -98,6 +104,14 @@ public class CompteServiceImpl implements CompteService {
 				}
 			}
 	}
+	
+	
+	public void modifDecouvert(Compte compte, double decouvert, Client client) {
+			
+			((CompteCourant)compte).setMontantDecouvertAutorise(decouvert);
+			cpm.save(compte, client);
+			System.out.println(compte);
+		}
 	
 	
 	public CompteDAO getCpm() {

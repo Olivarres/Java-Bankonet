@@ -1,0 +1,40 @@
+package command;
+
+import java.util.List;
+
+import com.bankonet.lib.Client;
+import com.bankonet.lib.ConsoleReader;
+
+import metier.ClientService;
+
+public class LFFirstNameCommand implements IHMCommand {
+	
+	private int id = 7;
+	private String lib = ". Rechercher un client par son prenom";
+	private ClientService cs;
+	private ConsoleReader scan;
+	
+	public LFFirstNameCommand(ClientService cs, ConsoleReader scan) {
+		this.cs = cs;
+		this.scan = scan;
+	}
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public String getLib() {
+		
+		return lib;
+	}
+
+	@Override
+	public void execute() {
+		List<Client> list = cs.getClientByFirstName(scan.readLine("Entrer un prenom"));
+		for (Client c :list) {
+			System.out.println(c);
+		}
+	}
+
+}
