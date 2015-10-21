@@ -6,23 +6,27 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.bankonet.lib.Client;
+import com.bankonet.lib.CompteCourant;
 import com.bankonet.lib.ConsoleReader;
 
 import metier.ClientService;
+import metier.CompteService;
 
 public class NewCCCommand implements IHMCommand {
 	private int id = 1;
 	private String lib = ". Ouvrir un compte courant";
 	private Map<Integer, String> steps = new HashMap();
 	private ClientService cs;
+	private CompteService cps;
 	private ConsoleReader scan;
 	
-	public NewCCCommand(ClientService cs, ConsoleReader scan) {
+	public NewCCCommand(ClientService cs, ConsoleReader scan, CompteService compteService) {
 		this.steps.put(1, "Nom du client:");
 		this.steps.put(2, "Prenom du client:");
 		this.steps.put(3, "Login du client:");
 		this.steps.put(4, "pwd");
 		this.cs = cs;
+		this.cps = compteService;
 		this.scan = scan;
 	}
 	
@@ -45,7 +49,8 @@ public class NewCCCommand implements IHMCommand {
 		for (step =0;step < 3; step++) {
 			tab[step] = this.scan.readLine(it.next());
 		}
-		cs.createClient(tab[0], tab[1], tab[2], "pwd");
+		Client client = cs.createClient(tab[0], tab[1], tab[2], "pwd");
+		cps.ajoutCompte(CompteCourant.class, client);
 	}
 
 }

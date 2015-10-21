@@ -44,7 +44,7 @@ public class Conseiller {
 		Conseiller conseiller = new Conseiller();
 		Map<Integer, IHMCommand> commands = new HashMap<Integer, IHMCommand>();
 		List<IHMCommand> staticCommands = Arrays.asList(new ExitCommand(), 
-				new NewCCCommand(conseiller.cs, ConsoleReader.getInstance()), 
+				new NewCCCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService), 
 				new ListClientsCommand(conseiller.cs, ConsoleReader.getInstance()),
 				new AddCCCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
 				new AddCECommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
@@ -55,9 +55,6 @@ public class Conseiller {
 				new ModifyNameCommand(conseiller.cs, ConsoleReader.getInstance()),
 				new DeleteClientCommand(conseiller.cs, ConsoleReader.getInstance()),
 				new DeleteAllClientsCommand(conseiller.cs, ConsoleReader.getInstance()));
-		
-	DBManager db = new DBManager();
-	db.connectMySQL();
 		
 		
 		for (IHMCommand command : staticCommands) {

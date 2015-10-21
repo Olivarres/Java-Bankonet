@@ -2,20 +2,32 @@ package com.bankonet.lib;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
 import com.mongodb.ReflectionDBObject;
 
+@MappedSuperclass
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public abstract class Compte extends ReflectionDBObject implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private String id;
 	private String numero;
-	@Id
 	private String intitule;
-	private double solde;
+	private Double solde;
+	@ManyToOne
+	@JoinColumn(name="client")
 	private Client client;
 	
 	public Compte() {	
@@ -26,6 +38,7 @@ public abstract class Compte extends ReflectionDBObject implements Serializable 
 		this.numero = numero;
 		this.intitule = intitule;
 		this.solde = solde;
+		this.client = client;
 	}
 
 	public abstract boolean checkDebit(double montant);

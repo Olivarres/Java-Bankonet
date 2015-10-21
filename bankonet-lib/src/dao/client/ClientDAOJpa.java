@@ -1,5 +1,6 @@
 package dao.client;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.bankonet.lib.Client;
+import com.bankonet.lib.CompteCourant;
+import com.bankonet.lib.CompteEpargne;
 import com.bankonet.lib.CompteException;
 
 public class ClientDAOJpa implements ClientDAO {
@@ -37,8 +40,13 @@ public class ClientDAOJpa implements ClientDAO {
 
 	@Override
 	public Client findById(String id) {
+		
 		this.em = factory.createEntityManager();
 		Client client = em.find(Client.class, id);
+		Iterator<CompteCourant> it1 = client.getCcList().iterator();
+		Iterator<CompteEpargne> it2 = client.getCeList().iterator();
+		it1.next();
+		it2.next();
 		em.close();
 		return client;
 	}
@@ -97,7 +105,6 @@ public class ClientDAOJpa implements ClientDAO {
 	@Override
 	public void save(Client client) {
 		this.em = factory.createEntityManager();
-		System.out.println("persistation");
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		em.persist(client);

@@ -47,7 +47,7 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	
-public void createClient(String nom, String prenom, String login, String pwd) {
+public Client createClient(String nom, String prenom, String login, String pwd) {
 		
 		Client client = null;
 		StringBuilder builder = new StringBuilder();
@@ -56,13 +56,13 @@ public void createClient(String nom, String prenom, String login, String pwd) {
 			client = cm.create(nom, prenom, login, pwd);
 			System.out.println(client);
 			builder.append(nom + '_' + prenom + "_COURANT_1");
-			client.creerCompte(new CompteCourant(String.valueOf(client.getComptesList().size()+1), builder.toString(), 0, 500, client));
-			System.out.println("YALA");
+			//client.creerCompte(new CompteCourant(String.valueOf(client.getComptesList().size()+1), builder.toString(), 0, 500, client));
+			
 			cm.save(client);
 		} catch (CompteException e) {
 			System.out.println(e.getMessage());
 		}
-
+		return client;
 	}
 	
 	public void displayClients() {

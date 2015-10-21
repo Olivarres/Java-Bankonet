@@ -9,7 +9,7 @@ import metier.ClientService;
 
 public class InitCommand implements IHMCommand {
 	private int id = 10;
-	private String lib = ". Initlialiser la BDD";
+	private String lib = ". Initialiser la BDD";
 	ClientService cs;
 	
 	public InitCommand(ClientService cs) {

@@ -10,17 +10,18 @@ import dao.compte.CompteDAO;
 import dao.compte.CompteDAOJpa;
 
 public class DAOFactoryJpa implements DAOFactory {
-
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("bankonet-lib");
+	
 	@Override
 	public ClientDAO getClientDAO() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("bankonet-lib");
+		
 		return new ClientDAOJpa(emf);
 	}
 
 	@Override
 	public CompteDAO getCompteDAO() {
-		// TODO Auto-generated method stub
-		return new CompteDAOJpa();
+
+		return new CompteDAOJpa(emf);
 	}
 
 }

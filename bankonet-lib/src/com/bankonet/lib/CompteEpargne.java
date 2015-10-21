@@ -1,9 +1,21 @@
 package com.bankonet.lib;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+@Entity
+@NamedQueries ({
+@NamedQuery(name="compteepargne.findByIntitule", query="select c from CompteEpargne c where c.intitule=:intitule")
+})
 public class CompteEpargne extends Compte {
 	
 		private double tauxInteret;
 		private double plafond;
+		
 		
 	public CompteEpargne() {
 		

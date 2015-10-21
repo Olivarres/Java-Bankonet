@@ -20,18 +20,18 @@ public class CompteServiceImpl implements CompteService {
 	
 	@Override
 	public void displayComptes(Class<? extends Compte> type, Client client) {
-		StringBuilder builder = new StringBuilder();
-		Iterator<Compte> it = client.getComptesList().values().iterator();
-		Compte compte = null;
-		
-		while (it.hasNext()) {
-			compte = it.next();
-			if (compte.getClass().equals(type)) {
-				builder.append(compte.toString() + "\n");
-			}
-			
-		}
-		System.out.println(builder.toString());
+//		StringBuilder builder = new StringBuilder();
+//		Iterator<Compte> it = client.getComptesList().values().iterator();
+//		Compte compte = null;
+//		
+//		while (it.hasNext()) {
+//			compte = it.next();
+//			if (compte.getClass().equals(type)) {
+//				builder.append(compte.toString() + "\n");
+//			}
+//			
+//		}
+//		System.out.println(builder.toString());
 		
 	}
 
@@ -40,11 +40,11 @@ public class CompteServiceImpl implements CompteService {
 		
 		str = client.synthese(type);
 		try {
-			cpm.save(cpm.create(client, str, type), client);
+			cpm.save(type, cpm.create(client, str, type), client);
 		} catch (CompteException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Compte " + client.getComptesList().get(String.valueOf(client.getComptesList().size())) + " ajouté!\n");
+		System.out.println(cpm.findByIntitule(type, str, client));
 	}
 	
 	@Override
@@ -58,29 +58,29 @@ public class CompteServiceImpl implements CompteService {
 	
 	public void displayAll(Client client) {
 		StringBuilder builder = new StringBuilder();
-		Iterator<Compte> it = client.getComptesList().values().iterator();
+		//Iterator<Compte> it = client.getComptesList().values().iterator();
 		Compte compte = null;
 		
-		while (it.hasNext()) {
-			compte = it.next();
-			builder.append(compte.toString() + "\n");
-			
-		}
+//		while (it.hasNext()) {
+//			compte = it.next();
+//			builder.append(compte.toString() + "\n");
+//			
+//		}
 		System.out.println(builder.toString());
 	}
 	
 	public Compte getCompteVire(String type, Client client) {
-		boolean ok = false;
-		Compte compte = null;
-		
-		this.displayAll(client);
-		while(!ok) {
-			System.out.println("Choisir un compte à " + type);
-			if ((compte = client.getComptesList().get(this.Scandat(0))) != null) {
-				ok = true;
-			}
-		}
-		return compte;
+//		boolean ok = false;
+//		Compte compte = null;
+//		
+//		this.displayAll(client);
+//		while(!ok) {
+//			System.out.println("Choisir un compte à " + type);
+//			if ((compte = client.getComptesList().get(this.Scandat(0))) != null) {
+//				ok = true;
+//			}
+//		}
+		return null;
 	}
 	
 
@@ -106,10 +106,10 @@ public class CompteServiceImpl implements CompteService {
 	}
 	
 	
-	public void modifDecouvert(Compte compte, double decouvert, Client client) {
+	public void modifDecouvert(Compte compte, int decouvert, Client client) {
 			
 			((CompteCourant)compte).setMontantDecouvertAutorise(decouvert);
-			cpm.save(compte, client);
+			cpm.save(CompteCourant.class, compte, client);
 			System.out.println(compte);
 		}
 	

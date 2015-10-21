@@ -1,15 +1,26 @@
 package com.bankonet.lib;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+@Entity
+@NamedQueries ({
+@NamedQuery(name="comptecourant.findByIntitule", query="select c from CompteCourant c where c.intitule=:intitule")
+})
 public class CompteCourant extends Compte {
 
-	private double montantDecouvertAutorise;
+	private int montantDecouvertAutorise;
 	static int nbComptesCourants=0;
 	
 	public CompteCourant() {
 		
 	}
 	
-	public CompteCourant(String num, String intitul, double sold, double montantD, Client client) {
+	public CompteCourant(String num, String intitul, double sold, int montantD, Client client) {
 		super(num, intitul, sold, client);
 		
 		if (sold < 0) {
@@ -30,11 +41,11 @@ public class CompteCourant extends Compte {
 	}
 	
 
-	public double getMontantDecouvertAutorise() {
+	public int getMontantDecouvertAutorise() {
 		return montantDecouvertAutorise;
 	}
 
-	public void setMontantDecouvertAutorise(double montantDecouvertAutorise) {
+	public void setMontantDecouvertAutorise(int montantDecouvertAutorise) {
 		this.montantDecouvertAutorise = montantDecouvertAutorise;
 	}
 

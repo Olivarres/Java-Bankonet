@@ -21,8 +21,11 @@ public class Client extends ReflectionDBObject implements Serializable {
 	@Id
 	private String identifiant;
 	private String pwd;
-	@Transient
-	private Map<String, Compte> comptesList = new HashMap();
+	@OneToMany(mappedBy="client")
+	private List<CompteCourant> ccList = new ArrayList();
+	@OneToMany(mappedBy="client")
+	private List<CompteEpargne> ceList = new ArrayList();
+	//private Map<String, Compte> comptesList = new HashMap();
 	
 	public Client() {}
 	
@@ -37,15 +40,17 @@ public class Client extends ReflectionDBObject implements Serializable {
 	
 
 	public void creerCompte(Compte compte) {
-		this.comptesList.put(compte.getNumero(), compte);
+		//this.comptesList.put(compte.getNumero(), compte);
 
 	}
 	
 
 	public String synthese(Class<? extends Compte> type) {
 		int size = 1;
-		if (this.comptesList != null) {
-			size = this.comptesList.size() +1;
+		if (type.equals(CompteCourant.class)) {
+			size = this.ccList.size()+1;
+		} else {
+			size = this.ceList.size()+1;
 		}
 		
 		StringBuilder builder = new StringBuilder();
@@ -65,42 +70,41 @@ public class Client extends ReflectionDBObject implements Serializable {
 
 
 	public void supprimerCompte(Compte compte) {
-		this.comptesList.remove(compte.getNumero());
+//		this.comptesList.remove(compte.getNumero());
 	}
 	
-	public Compte retournerCompte(String numero) throws CompteException {
-		Iterator<Compte> it = this.comptesList.values().iterator();
-		Compte compte;
-		
-		if ((compte = this.comptesList.get(numero)) != null) {
-			return compte;
-		} else {
-			throw new CompteException("Compte non trouvé");
-		}
-	}
+	//public Compte retournerCompte(String numero) throws CompteException {
+//		Iterator<Compte> it = this.comptesList.values().iterator();
+//		Compte compte;
+//		
+//		if ((compte = this.comptesList.get(numero)) != null) {
+//			return compte;
+//		} else {
+//			throw new CompteException("Compte non trouvé");
+//		}
+	//}
 	
 	public void supprimerCompte(String numero) throws CompteException {
 		
-		Compte compte;
-		
-		try {
-		compte = this.retournerCompte(numero);
-		} catch (CompteException e) {
-			throw new CompteException(e.getMessage());
-		}
-		comptesList.remove(compte.getNumero());
+//		Compte compte;
+//		
+//		try {
+//		compte = this.retournerCompte(numero);
+//		} catch (CompteException e) {
+//			throw new CompteException(e.getMessage());
+//		}
+//		comptesList.remove(compte.getNumero());
 	}
 	
-	public double calculerAvoirGlobal() {
-		double buffer = 0;
-		Iterator<Compte> it = this.comptesList.values().iterator();
-		//Iterator<Compte> it = this.comptesList.iterator();
-		
-		while(it.hasNext()) {
-			buffer += it.next().getSolde();
-		}
-		return buffer;
-	}
+//	public double calculerAvoirGlobal() {
+//		double buffer = 0;
+//		Iterator<Compte> it = this.comptesList.values().iterator();
+//		
+//		while(it.hasNext()) {
+//			buffer += it.next().getSolde();
+//		}
+//		return buffer;
+//	}
 	
 	public String getNom() {
 		return nom;
@@ -120,19 +124,29 @@ public class Client extends ReflectionDBObject implements Serializable {
 	public void setIdentifiant(String identifiant) {
 		this.identifiant = identifiant;
 	}
-	public Map<String, Compte> getComptesList() {
-		return comptesList;
-	}
-	
+
 	public String getPwd() {
 		return pwd;
-	}
-
-	public void setComptesList(Map<String, Compte> comptesList) {
-		this.comptesList = comptesList;
 	}
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
+
+	public List<CompteCourant> getCcList() {
+		return ccList;
+	}
+
+	public void setCcList(List<CompteCourant> ccList) {
+		this.ccList = ccList;
+	}
+
+	public List<CompteEpargne> getCeList() {
+		return ceList;
+	}
+
+	public void setCeList(List<CompteEpargne> ceList) {
+		this.ceList = ceList;
+	}
+	
 }
