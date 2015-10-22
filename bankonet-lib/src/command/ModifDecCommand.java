@@ -37,9 +37,8 @@ public class ModifDecCommand implements IHMCommand {
 		cs.displayClients();
 		Client client = cs.getClient(scan.readLine("Choisir un client"));
 		compteService.displayComptes(CompteCourant.class, client);
-		Compte compte = compteService.getCompte(CompteCourant.class, client, scan.readLine("Choisir le compte à modifier"));
-		int decouvert = scan.readInt("Choisir le nouveau decouvert");
-		compteService.modifDecouvert(compte, decouvert, client);
+		Compte compte = compteService.getCompteByNum(CompteCourant.class, client, scan.readLine("Choisir le compte à modifier"));
+		compteService.modifDecouvert(compte, scan.readInt("Choisir le montant"), client);
 	}
 
 }

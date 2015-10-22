@@ -9,7 +9,8 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries ({
-@NamedQuery(name="comptecourant.findByIntitule", query="select c from CompteCourant c where c.intitule=:intitule")
+@NamedQuery(name="comptecourant.findByIntitule", query="select c from CompteCourant c where c.intitule=:intitule"),
+@NamedQuery(name="comptecourant.findByNum", query="select c from CompteCourant c where c.numero=:num")
 })
 public class CompteCourant extends Compte {
 

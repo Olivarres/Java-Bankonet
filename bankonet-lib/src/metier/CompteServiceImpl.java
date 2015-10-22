@@ -20,19 +20,11 @@ public class CompteServiceImpl implements CompteService {
 	
 	@Override
 	public void displayComptes(Class<? extends Compte> type, Client client) {
-//		StringBuilder builder = new StringBuilder();
-//		Iterator<Compte> it = client.getComptesList().values().iterator();
-//		Compte compte = null;
-//		
-//		while (it.hasNext()) {
-//			compte = it.next();
-//			if (compte.getClass().equals(type)) {
-//				builder.append(compte.toString() + "\n");
-//			}
-//			
-//		}
-//		System.out.println(builder.toString());
-		
+		StringBuilder builder = new StringBuilder();
+		for (Compte c : cpm.findAll()) {
+			builder.append(c.toString() + "\n");
+		}
+		System.out.println(builder);
 	}
 
 	public void ajoutCompte(Class<? extends Compte> type, Client client) {
@@ -50,6 +42,10 @@ public class CompteServiceImpl implements CompteService {
 	@Override
 	public Compte getCompte(Class<? extends Compte> type, Client client, String id) {
 		return cpm.findById(id, client);
+	}
+	
+	public Compte getCompteByNum(Class<? extends Compte> type, Client client, String num) {
+		return cpm.findByNum(type, client, num);
 	}
 	
 	public Compte getCompteByType(Class<? extends Compte> type, Client client) {
@@ -108,9 +104,9 @@ public class CompteServiceImpl implements CompteService {
 	
 	public void modifDecouvert(Compte compte, int decouvert, Client client) {
 			
-			((CompteCourant)compte).setMontantDecouvertAutorise(decouvert);
-			cpm.save(CompteCourant.class, compte, client);
-			System.out.println(compte);
+		((CompteCourant)compte).setMontantDecouvertAutorise(decouvert);
+		cpm.save(CompteCourant.class, compte, client);
+		System.out.println(compte);
 		}
 	
 	

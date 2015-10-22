@@ -51,7 +51,6 @@ public Client createClient(String nom, String prenom, String login, String pwd) 
 		
 		Client client = null;
 		StringBuilder builder = new StringBuilder();
-		System.out.println("YALO");
 		try {
 			client = cm.create(nom, prenom, login, pwd);
 			System.out.println(client);
@@ -68,13 +67,10 @@ public Client createClient(String nom, String prenom, String login, String pwd) 
 	public void displayClients() {
 		StringBuilder builder = new StringBuilder();
 		List<Client> clientsList = cm.findAll();
-		//Iterator<Client> it = clientsList.values().iterator();
-//		while (it.hasNext()) {
-//			client = (Client)it.next();
-//			builder.append(client.toString() + "Nombre de comptes: " + client.getComptesList().size() + "\n");
-//		}
+		
 		for (Client c : clientsList) {
-			builder.append(c.toString() + "\n"); // + "Nombre de comptes: " + c.getComptesList().size() + "\n");
+			builder.append(c.toString() + " - Comptes courants: " + c.getCcList().size() 
+					+ " - Comptes épargne: " + c.getCeList().size() +  "\n");
 		}
 		System.out.println(builder.toString());
 	}

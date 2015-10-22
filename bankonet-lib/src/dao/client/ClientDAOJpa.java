@@ -43,10 +43,10 @@ public class ClientDAOJpa implements ClientDAO {
 		
 		this.em = factory.createEntityManager();
 		Client client = em.find(Client.class, id);
-		Iterator<CompteCourant> it1 = client.getCcList().iterator();
-		Iterator<CompteEpargne> it2 = client.getCeList().iterator();
-		it1.next();
-		it2.next();
+//		Iterator<CompteCourant> it1 = client.getCcList().iterator();
+//		Iterator<CompteEpargne> it2 = client.getCeList().iterator();
+//		it1.next();
+//		it2.next();
 		em.close();
 		return client;
 	}

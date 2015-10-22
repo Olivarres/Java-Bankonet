@@ -21,9 +21,9 @@ public class Client extends ReflectionDBObject implements Serializable {
 	@Id
 	private String identifiant;
 	private String pwd;
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy="client", fetch = FetchType.EAGER)
 	private List<CompteCourant> ccList = new ArrayList();
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy="client", fetch = FetchType.EAGER)
 	private List<CompteEpargne> ceList = new ArrayList();
 	//private Map<String, Compte> comptesList = new HashMap();
 	
