@@ -1,9 +1,15 @@
 package ihm;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.reflections.Reflections;
 
 import command.AddCCCommand;
 import command.AddCECommand;
@@ -42,24 +48,24 @@ public class Conseiller {
 	public static void main(String[] args) {
 		Conseiller conseiller = new Conseiller();
 		Map<Integer, IHMCommand> commands = new HashMap<Integer, IHMCommand>();
-		List<IHMCommand> staticCommands = Arrays.asList(new ExitCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService), 
-				new NewCCCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService), 
-				new ListClientsCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new AddCCCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new AddCECommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new ModifDecCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new InitCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new LFNameCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new LFFirstNameCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new ModifyNameCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new DeleteClientCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new DeleteAllClientsCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService));
+		List<IHMCommand> staticCommands = new ArrayList<IHMCommand>();
+	
+		Reflections reflections = new Reflections("command");
 		
+		Set<Class<? extends IHMCommand>> subTypes = reflections.getSubTypesOf(IHMCommand.class);
 		
+		for (Class<? extends IHMCommand> c : subTypes) {
+			try {
+				staticCommands.add(c.getConstructor(ClientService.class, ConsoleReader.class, CompteService.class)
+				.newInstance(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService));
+			} catch (Throwable e) {
+				e.getMessage();
+			} 
+			System.out.println(c);
+		}
 		for (IHMCommand command : staticCommands) {
 			commands.put(command.getId(), command);
 		}
-
 		
 		while(true) {
 			for(Iterator<Integer> p = commands.keySet().iterator(); p.hasNext(); ) {

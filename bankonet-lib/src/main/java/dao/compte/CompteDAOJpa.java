@@ -28,7 +28,7 @@ public class CompteDAOJpa implements CompteDAO {
 		this.em = factory.createEntityManager();
 		List<CompteCourant> listcc;
 		List<CompteEpargne> listce;
-		List<Compte> listAll = new ArrayList();
+		List<Compte> listAll = new ArrayList<Compte>();
 		TypedQuery<CompteCourant> query = em.createQuery("select c from CompteCourant c", CompteCourant.class);
 		listcc = query.getResultList();
 		TypedQuery<CompteEpargne> query2 = em.createQuery("select c from CompteEpargne c", CompteEpargne.class);

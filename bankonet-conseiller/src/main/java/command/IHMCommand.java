@@ -1,8 +1,10 @@
 package command;
 
+import lib.ConsoleReader;
 import metier.ClientService;
 
 public interface IHMCommand {
+	
 	
 	
 	abstract public int getId();

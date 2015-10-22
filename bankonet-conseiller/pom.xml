@@ -41,10 +41,10 @@
 		    <version>5.0.2.Final</version>
 		    <scope>runtime</scope>
 		</dependency>
-			<dependency>
-		    <groupId>com.google.code.reflection-utils</groupId>
-		    <artifactId>reflection-utils</artifactId>
-		    <version>0.0.1</version>
+		<dependency>
+		    <groupId>org.reflections</groupId>
+		    <artifactId>reflections</artifactId>
+		    <version>0.9.10</version>
 		</dependency>
 	</dependencies>
 </project>
