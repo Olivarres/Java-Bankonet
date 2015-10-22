@@ -50,6 +50,12 @@ public class CompteDAOFile implements CompteDAO {
 		
 	}
 
+	@Override
+	public void mergeCompte(Compte compte) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 }

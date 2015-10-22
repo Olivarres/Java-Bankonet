@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import command.IHMCommand;
 import lib.Client;
 import lib.CompteCourant;
 import lib.ConsoleReader;

@@ -42,23 +42,24 @@ public class Conseiller {
 	public static void main(String[] args) {
 		Conseiller conseiller = new Conseiller();
 		Map<Integer, IHMCommand> commands = new HashMap<Integer, IHMCommand>();
-		List<IHMCommand> staticCommands = Arrays.asList(new ExitCommand(), 
+		List<IHMCommand> staticCommands = Arrays.asList(new ExitCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService), 
 				new NewCCCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService), 
-				new ListClientsCommand(conseiller.cs, ConsoleReader.getInstance()),
+				new ListClientsCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
 				new AddCCCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
 				new AddCECommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
 				new ModifDecCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
-				new InitCommand(conseiller.cs),
-				new LFNameCommand(conseiller.cs, ConsoleReader.getInstance()),
-				new LFFirstNameCommand(conseiller.cs, ConsoleReader.getInstance()),
-				new ModifyNameCommand(conseiller.cs, ConsoleReader.getInstance()),
-				new DeleteClientCommand(conseiller.cs, ConsoleReader.getInstance()),
-				new DeleteAllClientsCommand(conseiller.cs, ConsoleReader.getInstance()));
+				new InitCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new LFNameCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new LFFirstNameCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new ModifyNameCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new DeleteClientCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService),
+				new DeleteAllClientsCommand(conseiller.cs, ConsoleReader.getInstance(), conseiller.compteService));
 		
 		
 		for (IHMCommand command : staticCommands) {
 			commands.put(command.getId(), command);
 		}
+
 		
 		while(true) {
 			for(Iterator<Integer> p = commands.keySet().iterator(); p.hasNext(); ) {

@@ -1,5 +1,6 @@
 package command;
 
+import command.IHMCommand;
 import lib.ConsoleReader;
 
 import metier.ClientService;

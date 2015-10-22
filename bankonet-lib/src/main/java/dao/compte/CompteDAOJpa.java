@@ -111,6 +111,15 @@ public class CompteDAOJpa implements CompteDAO {
 		return null;
 	}
 
+	public void mergeCompte(Compte compte) {
+		this.em = factory.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		em.merge(compte);
+		et.commit();
+		em.close();
+	}
+	
 	@Override
 	public void save(Class<? extends Compte> type, Compte compte, Client client) {
 		this.em = factory.createEntityManager();
@@ -124,9 +133,6 @@ public class CompteDAOJpa implements CompteDAO {
 		}
 		//EntityTransaction et1 = em.getTransaction();
 		EntityTransaction et = em.getTransaction();
-		et.begin();
-		em.merge(type.cast(compte));
-		et.commit();
 		
 		et.begin();
 		em.persist(type.cast(compte));

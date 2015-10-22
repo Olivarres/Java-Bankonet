@@ -22,6 +22,7 @@ public class ConsoleReader {
 	}
 	
 	public Integer readInt(String msg) {
+		System.out.println(msg);
 		return scanner.nextInt();
 	}
 }

@@ -2,9 +2,11 @@ package command;
 
 import java.util.List;
 
+import command.IHMCommand;
 import lib.Client;
 import lib.ConsoleReader;
 import metier.ClientService;
+import metier.CompteService;
 
 public class LFFirstNameCommand implements IHMCommand {
 	
@@ -13,7 +15,7 @@ public class LFFirstNameCommand implements IHMCommand {
 	private ClientService cs;
 	private ConsoleReader scan;
 	
-	public LFFirstNameCommand(ClientService cs, ConsoleReader scan) {
+	public LFFirstNameCommand(ClientService cs, ConsoleReader scan, CompteService compteService) {
 		this.cs = cs;
 		this.scan = scan;
 	}

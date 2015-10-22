@@ -1,17 +1,18 @@
 package command;
 
-import lib.Client;
+import command.IHMCommand;
 import lib.ConsoleReader;
 import metier.ClientService;
+import metier.CompteService;
 
-public class DeleteClientCommand implements IHMCommand {
+public class DeleteAllClientsCommand implements IHMCommand {
 	
-	private int id = 9;
-	private String lib = ". Supprimer un client";
+	private int id = 11;
+	private String lib = ". Supprimer tous les clients";
 	private ClientService cs;
 	private ConsoleReader scan;
 	
-	public DeleteClientCommand(ClientService cs, ConsoleReader scan) {
+	public DeleteAllClientsCommand(ClientService cs, ConsoleReader scan, CompteService compteService) {
 		this.cs = cs;
 		this.scan = scan;
 	}
@@ -28,9 +29,8 @@ public class DeleteClientCommand implements IHMCommand {
 
 	@Override
 	public void execute() {
-		Client client = cs.getClient(scan.readLine("Entrer un login"));
 		if (scan.readLine("Valider en saisissant V ou annuler en saisissant A").equals("V")) {
-			cs.removeClient(client);
+			cs.removeAllClients();
 		}
 	}
 

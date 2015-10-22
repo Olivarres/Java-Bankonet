@@ -1,5 +1,6 @@
 package command;
 
+import command.IHMCommand;
 import lib.Client;
 import lib.CompteEpargne;
 import lib.ConsoleReader;

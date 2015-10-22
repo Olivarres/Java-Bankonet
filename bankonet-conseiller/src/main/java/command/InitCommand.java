@@ -3,15 +3,18 @@ package command;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import command.IHMCommand;
+import lib.ConsoleReader;
 import lib.DBManager;
 import metier.ClientService;
+import metier.CompteService;
 
 public class InitCommand implements IHMCommand {
 	private int id = 10;
 	private String lib = ". Initialiser la BDD";
 	ClientService cs;
 	
-	public InitCommand(ClientService cs) {
+	public InitCommand(ClientService cs, ConsoleReader scan, CompteService compteService) {
 		this.cs = cs;
 	}
 	

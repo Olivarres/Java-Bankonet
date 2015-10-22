@@ -21,5 +21,31 @@
 		</pluginManagement>
 	</build>
 
+	<dependencies>
+		<dependency>
+			<groupId>dta</groupId>
+		    <artifactId>bankonet-lib</artifactId>
+		    <version>1.0.0</version>
+		    <scope>compile</scope>
+		</dependency>
+	<dependency>
+		    <groupId>org.hibernate.javax.persistence</groupId>
+		    <artifactId>hibernate-jpa-2.1-api</artifactId>
+		    <version>1.0.0.Final</version>
+		    <scope>runtime</scope>
+		</dependency>
+	
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-entitymanager</artifactId>
+		    <version>5.0.2.Final</version>
+		    <scope>runtime</scope>
+		</dependency>
+			<dependency>
+		    <groupId>com.google.code.reflection-utils</groupId>
+		    <artifactId>reflection-utils</artifactId>
+		    <version>0.0.1</version>
+		</dependency>
+	</dependencies>
 </project>
 

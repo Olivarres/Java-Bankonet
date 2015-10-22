@@ -14,5 +14,6 @@ public interface CompteService {
 	public void ajoutCompte(Class<? extends Compte> type, Client client);
 	public void displayAll(Client client);
 	public void faireDepot(Client client);
+	public void updateCompte(Compte compte);
 	public void modifDecouvert(Compte compte, int decouvert, Client client);
 }

@@ -14,5 +14,6 @@ public interface CompteDAO {
 	public Compte findByType(Class<? extends Compte> type, Client client);
 	public Compte findByIntitule(Class<? extends Compte> type, String intitule, Client client);
 	public Compte findByNum(Class<? extends Compte> type, Client client, String num);
+	public void mergeCompte(Compte compte);
 	public void save(Class<? extends Compte> type, Compte Compte, Client client);
 }

@@ -1,10 +1,18 @@
 package command;
 
+import command.IHMCommand;
+import lib.ConsoleReader;
+import metier.ClientService;
+import metier.CompteService;
+
 public class ExitCommand implements IHMCommand {
 
 	private int id = 0;
 	private String lib = ". Fermer l'application";
 	
+	public ExitCommand(ClientService cs, ConsoleReader scan, CompteService compteService) {
+		
+	}
 	@Override
 	public int getId() {
 		return id;

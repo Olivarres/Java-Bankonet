@@ -50,6 +50,10 @@ public class CompteServiceImpl implements CompteService {
 		return cpm.findByType(type, client);
 	}
 	
+	public void updateCompte(Compte compte) {
+		cpm.mergeCompte(compte);
+	}
+	
 	public void displayAll(Client client) {
 		StringBuilder builder = new StringBuilder();
 		//Iterator<Compte> it = client.getComptesList().values().iterator();
@@ -86,7 +90,7 @@ public class CompteServiceImpl implements CompteService {
 		while(!ok) {
 			System.out.println("Saisir un montant:");
 				try {
-					compte.crediter(Double.valueOf(Scandat(0)));
+					compte.crediter(Double.valueOf("20"));
 					//fm.writeData(clientsList);
 					ok = true;
 				} catch (NumberFormatException e) {
@@ -103,7 +107,8 @@ public class CompteServiceImpl implements CompteService {
 	public void modifDecouvert(Compte compte, int decouvert, Client client) {
 			
 		((CompteCourant)compte).setMontantDecouvertAutorise(decouvert);
-		cpm.save(CompteCourant.class, compte, client);
+//		cpm.save(CompteCourant.class, compte, client);
+		cpm.mergeCompte(compte);
 		System.out.println(compte);
 		}
 	
@@ -114,18 +119,6 @@ public class CompteServiceImpl implements CompteService {
 
 	public void setCpm(CompteDAO cpm) {
 		this.cpm = cpm;
-	}
-
-	public String Scandat(int flag) {
-		String str = "";
-		Scanner scanIn = new Scanner(System.in);
-		
-		 if (flag == 1)
-	    	 scanIn.close();
-		 
-		 
-	     str = scanIn.nextLine();
-	     return str;
 	}
 
 }

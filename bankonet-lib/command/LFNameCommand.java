@@ -2,6 +2,7 @@ package command;
 
 import java.util.List;
 
+import command.IHMCommand;
 import lib.Client;
 import lib.ConsoleReader;
 import metier.ClientService;

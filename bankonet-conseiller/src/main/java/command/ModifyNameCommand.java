@@ -1,8 +1,10 @@
 package command;
 
+import command.IHMCommand;
 import lib.Client;
 import lib.ConsoleReader;
 import metier.ClientService;
+import metier.CompteService;
 
 public class ModifyNameCommand implements IHMCommand {
 	
@@ -11,7 +13,7 @@ public class ModifyNameCommand implements IHMCommand {
 	private ClientService cs;
 	private ConsoleReader scan;
 	
-	public ModifyNameCommand(ClientService cs, ConsoleReader scan) {
+	public ModifyNameCommand(ClientService cs, ConsoleReader scan, CompteService compteService) {
 		this.cs = cs;
 		this.scan = scan;
 	}
