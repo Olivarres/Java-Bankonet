@@ -1,8 +1,5 @@
 package ihm;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,19 +8,7 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
-import command.AddCCCommand;
-import command.AddCECommand;
-import command.DeleteAllClientsCommand;
-import command.DeleteClientCommand;
-import command.ExitCommand;
 import command.IHMCommand;
-import command.InitCommand;
-import command.LFFirstNameCommand;
-import command.LFNameCommand;
-import command.ListClientsCommand;
-import command.ModifDecCommand;
-import command.ModifyNameCommand;
-import command.NewCCCommand;
 import dao.DAOFactory;
 import dao.DAOFactoryJpa;
 import lib.ConsoleReader;
@@ -61,7 +46,6 @@ public class Conseiller {
 			} catch (Throwable e) {
 				e.getMessage();
 			} 
-			System.out.println(c);
 		}
 		for (IHMCommand command : staticCommands) {
 			commands.put(command.getId(), command);

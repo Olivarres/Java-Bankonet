@@ -1,5 +1,4 @@
 package lib;
-import java.net.UnknownHostException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 

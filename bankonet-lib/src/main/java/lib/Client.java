@@ -1,6 +1,5 @@
 package lib;
 
-import java.io.Serializable;
 import java.util.*;
 
 import javax.persistence.*;
@@ -10,7 +9,7 @@ import javax.persistence.*;
 @NamedQuery(name="client.findByName", query="select c from Client c where c.nom=:name"),
 @NamedQuery(name="client.findByFirstName", query="select c from Client c where c.prenom=:firstname"),
 })
-public class Client implements Serializable {
+public class Client {
 
 	
 	private String nom;
@@ -22,7 +21,6 @@ public class Client implements Serializable {
 	private List<CompteCourant> ccList = new ArrayList<CompteCourant>();
 	@OneToMany(mappedBy="client", fetch = FetchType.EAGER)
 	private List<CompteEpargne> ceList = new ArrayList<CompteEpargne>();
-	//private Map<String, Compte> comptesList = new HashMap();
 	
 	public Client() {}
 	
@@ -31,14 +29,12 @@ public class Client implements Serializable {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.identifiant = identifiant;
-//		this.comptesList = new HashMap(); 
 		this.pwd = pwd;
 	}
 	
 
 	public void creerCompte(Compte compte) {
 		//this.comptesList.put(compte.getNumero(), compte);
-
 	}
 	
 

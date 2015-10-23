@@ -1,7 +1,5 @@
 package lib;
 
-import java.io.Serializable;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +12,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public abstract class Compte implements Serializable {
+public abstract class Compte {
 
 	/**
 	 * 

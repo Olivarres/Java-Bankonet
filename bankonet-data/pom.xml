@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>bankonet-data</groupId>
+  <artifactId>bankonet-data</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <!-- ( 1 ) plugin info -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>sql-maven-plugin</artifactId>
+        <version>1.5</version>
+
+        <!-- ( 2 ) jdbc dirver -->
+        <dependencies>
+                <dependency>
+		            <groupId>mysql</groupId>
+				    <artifactId>mysql-connector-java</artifactId>
+				    <version>5.1.37</version>
+				    <scope>runtime</scope>
+                </dependency>
+        </dependencies>
+
+      <!-- ( 3 ) connection settings -->
+      <configuration>
+          <driver>com.mysql.jdbc.Driver</driver>
+          <url>jdbc:mysql://localhost:3306/bankonet_db</url>
+          <username>root</username>
+          <password></password>
+        </configuration>
+
+      <!-- ( 4 ) phase, goal & SQL (command or file) -->
+      <executions>
+    <!--       <execution>
+            <id>drop-table</id>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <autocommit>true</autocommit>
+              <sqlCommand>DROP TABLE IF EXISTS person</sqlCommand>
+            </configuration>
+          </execution> -->
+          
+           <execution>
+            <id>clean-db</id>
+            <phase>test</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <autocommit>true</autocommit>
+              <srcFiles>
+                <srcFile>src/main/sql/clean-db.sql</srcFile>
+              </srcFiles>
+            </configuration>
+          </execution>
+          
+          <execution>
+            <id>init-db</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <autocommit>true</autocommit>
+              <srcFiles>
+                <srcFile>src/main/sql/init-db.sql</srcFile>
+              </srcFiles>
+            </configuration>
+          </execution>
+          
+      </executions>
+</plugin>
+      
+    </plugins>
+  </build>
+</project>
