@@ -35,11 +35,11 @@ public class InitCommand implements IHMCommand {
 		dbm.connectMySQL();
 		try {
 			Statement state = dbm.connection.createStatement();
-			int bla = state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Winchester','Dean','WinD', 'pwd')");
-			bla = state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Winchester','Sammy','WinS', 'pwd')");
-			bla = state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Dunno','Ellen','DunnE', 'pwd')");
-			bla = state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Dunno','Bobby','DunnB', 'pwd')");
-			bla = state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Dunno','Jo','DunnJ', 'pwd')");
+			state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Winchester','Dean','WinD', 'pwd')");
+			state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Winchester','Sammy','WinS', 'pwd')");
+			state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Dunno','Ellen','DunnE', 'pwd')");
+			state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Dunno','Bobby','DunnB', 'pwd')");
+			state.executeUpdate("INSERT INTO CLIENT(NOM,PRENOM,IDENTIFIANT,PWD) VALUES('Dunno','Jo','DunnJ', 'pwd')");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

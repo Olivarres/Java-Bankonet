@@ -32,7 +32,7 @@ public class ModifyNameCommand implements IHMCommand {
 	public void execute() {
 		Client client = cs.getClient(scan.readLine("Entrer un login"));
 		client.setNom(scan.readLine("Entrer le nouveau nom"));
-		if (scan.readLine("Valider en saisissant V ou annuler en saisissant A").equals("V")) {
+		if ("V".equals(scan.readLine("Valider en saisissant V ou annuler en saisissant A"))) {
 			cs.updateClient(client);
 		}
 	}

@@ -31,7 +31,7 @@ public class DeleteClientCommand implements IHMCommand {
 	@Override
 	public void execute() {
 		Client client = cs.getClient(scan.readLine("Entrer un login"));
-		if (scan.readLine("Valider en saisissant V ou annuler en saisissant A").equals("V")) {
+		if ("V".equals(scan.readLine("Valider en saisissant V ou annuler en saisissant A"))) {
 			cs.removeClient(client);
 		}
 	}

@@ -34,7 +34,6 @@ public class Conseiller {
 		Conseiller conseiller = new Conseiller();
 		Map<Integer, IHMCommand> commands = new HashMap<Integer, IHMCommand>();
 		List<IHMCommand> staticCommands = new ArrayList<IHMCommand>();
-	
 		Reflections reflections = new Reflections("command");
 		
 		Set<Class<? extends IHMCommand>> subTypes = reflections.getSubTypesOf(IHMCommand.class);

@@ -29,7 +29,7 @@ public class DeleteAllClientsCommand implements IHMCommand {
 
 	@Override
 	public void execute() {
-		if (scan.readLine("Valider en saisissant V ou annuler en saisissant A").equals("V")) {
+		if ("V".equals(scan.readLine("Valider en saisissant V ou annuler en saisissant A"))) {
 			cs.removeAllClients();
 		}
 	}
