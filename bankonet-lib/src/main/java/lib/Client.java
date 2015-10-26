@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NamedQuery(name="client.findByName", query="select c from Client c where c.nom=:name"),
 @NamedQuery(name="client.findByFirstName", query="select c from Client c where c.prenom=:firstname"),
 })
-public class Clinet {
+public class Client {
 
 	
 	private String nom;
